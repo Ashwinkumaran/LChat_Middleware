@@ -1,6 +1,7 @@
 package com.coll.restcontroller;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,15 @@ public class JobRestController
 				return new ResponseEntity<Job>(job, HttpStatus.NOT_FOUND);
 			} else {
 				return new ResponseEntity<Job>(job, HttpStatus.OK);
+			}
+		}
+		@PostMapping(value = "/applyJob")
+		public ResponseEntity<String> addJob(@RequestBody ApplyingJob applyJob) {
+			applyJob.setAppliedDate(new Date());
+			if (jobDAO.applyJob(applyJob)) {
+				return new ResponseEntity<String>("ApplyJob Added- Success", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("Applyjob failed", HttpStatus.NOT_FOUND);
 			}
 		}
 		@GetMapping(value = "/listAppliedJobs/{loginname}")
